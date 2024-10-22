@@ -19,7 +19,7 @@
   "author": "Figma",
   "license": "MIT License",
   "devDependencies": {
-    "@figma/plugin-typings": "*",
+    "@figma/plugin-typings": "^1.100.2",
     "@sveltejs/vite-plugin-svelte": "^2.0.4",
     "@tsconfig/svelte": "^4.0.1",
     "@types/node": "^18.15.11",

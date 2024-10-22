@@ -17,6 +17,10 @@
   onMount(() => {
     SendToFigma('Hello');
   })
+
+  On('VARIABLES', (m, d) => {
+    // console.log(d);
+  })
 </script>
 
 <div>
@@ -28,5 +32,12 @@
     }}
   >
     Close
+  </button>
+  <button
+    on:click={() => {
+      SendToFigma('get-variables');
+    }}
+  >
+    Get JSON
   </button>
 </div>

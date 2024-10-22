@@ -1,6 +1,6 @@
 import { CreateMessage } from "./lib/CreateMessage";
 import { PostToUi } from "./lib/FigmaHelpers";
-
+import { exportToJSON } from "./lib/ExportJson";
 
 figma.showUI(__html__);
 
@@ -14,7 +14,12 @@ figma.ui.on("message", (msg) => {
     figma.notify(message);
     PostToUi('HelloBack');
   }
-  if (msg === "close") {
+  else if (msg === "close") {
     figma.closePlugin();
+  }
+  if( msg === "get-variables") {
+    const data = exportToJSON();
+    console.log(data);
+    PostToUi('VARIABLES', data);
   }
 });
