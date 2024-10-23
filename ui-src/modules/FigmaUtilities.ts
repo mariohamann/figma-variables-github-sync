@@ -4,8 +4,8 @@
  * @param message 
  * @param origin 
  */
-export function SendToFigma(message: any, origin = '*') {
-    parent.postMessage({ pluginMessage: message}, origin);
+export function SendToFigma(name: any, content = {} as any, origin = '*') {
+    parent.postMessage({ pluginMessage: {name, content}}, origin);
 }
 
 /**

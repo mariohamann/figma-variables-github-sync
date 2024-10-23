@@ -1,6 +1,6 @@
 {
-  "name": "test-plugin",
-  "id": "l7Jt8jqpdW",
+  "name": "Variables GitHub Sync",
+  "id": "variables-github-sync.mariohamann.com",
   "api": "1.0.0",
   "editorType": ["figma"],
   "permissions": [],
