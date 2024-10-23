@@ -41,7 +41,6 @@ figma.ui.on("message", async ({ name, content }) => {
 			action: (content) => {
 				// save everything besides auth in with setPluginData and auth on clientStorage
 				const { auth, ...rest } = content;
-        console.log({auth})
 				figma.clientStorage.setAsync("auth", auth);
 				for (const [key, value] of Object.entries(rest)) {
 					if (!value) {
@@ -57,13 +56,10 @@ figma.ui.on("message", async ({ name, content }) => {
 			action: async () => {
 				// get everything besides auth in with getPluginData and auth on clientStorage
 				const auth = await figma.clientStorage.getAsync("auth");
-        console.log({auth})
 				const rest = {};
-				console.log(figma.root.getPluginDataKeys());
 				for (const key of figma.root.getPluginDataKeys()) {
 					rest[key] = figma.root.getPluginData(key);
 				}
-				console.log({ auth, ...rest });
 				PostToUi("RECEIVE-CONFIG", { auth, ...rest });
 			},
 		},
