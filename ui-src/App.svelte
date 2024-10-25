@@ -1,9 +1,9 @@
 <script>
   import { onMount } from "svelte";
-  import { On, SendToFigma } from "./modules/FigmaUtilities";
   import { Octokit } from "@octokit/core";
   import { createOrUpdateTextFile } from "@octokit/plugin-create-or-update-text-file";
   import { writable } from "svelte/store";
+  import { on, emit } from '@create-figma-plugin/utilities'
 
   // State object for all repo data and authentication
   let config = writable({
@@ -23,7 +23,7 @@
     if (!octokit) {
       const { auth } = $config;
       if (!auth) {
-        SendToFigma('notify', 'No authentication provided');
+        emit('notify', 'No authentication provided');
         return;
       }
 
@@ -38,7 +38,7 @@
     const { owner, repo } = $config;
 
     if (!owner || !repo || !octokit) {
-      SendToFigma('notify', 'Owner, repo, or octokit not set');
+      emit('notify', 'Owner, repo, or octokit not set');
       return;
     }
 
@@ -52,7 +52,7 @@
     });
 
     branches.set([defaultBranch, ...data.map(b => b.name).filter(b => b !== defaultBranch)]);
-    SendToFigma('notify', 'Branches updated');
+    emit('notify', 'Branches updated');
   };
 
   const getDefaultBranch = async () => {
@@ -68,7 +68,7 @@
   };
 
   const getConfig = () => {
-    SendToFigma('get-config');
+    emit('get-config');
   };
 
   // Handle on-mount actions
@@ -79,7 +79,8 @@
   });
 
   // Handle repository data updates
-  On('RECEIVE-CONFIG', (m, d) => {
+  on('RECEIVE-CONFIG', (d) => {
+    console.log('Received config', d);
     config.set({
       owner: d.owner,
       repo: d.repo,
@@ -92,7 +93,7 @@
   });
 
   // Push to GitHub
-  On('TO-GITHUB', async (m, content) => {
+  on('TO-GITHUB', async (content) => {
     const { owner, repo, path, branch } = $config;
 
     state.set("Sending to GitHub...");
@@ -144,11 +145,11 @@
   </div>
 
   <button>Cancel</button>
-  <button on:click={() => SendToFigma('save-config', $config)}>Save</button>
+  <button on:click={() => emit('save-config', $config)}>Save</button>
   <hr />
-  <button on:click={() => SendToFigma('close')}>Close</button>
-  <button on:click={() => SendToFigma('get-variables')}>Get JSON</button>
-  <button on:click={() => SendToFigma('send-to-github')}>Push to GitHub</button>
+  <button on:click={() => emit('close')}>Close</button>
+  <button on:click={() => emit('get-variables')}>Get JSON</button>
+  <button on:click={() => emit('send-to-github')}>Push to GitHub</button>
 
   <p>{$state}</p>
 </div>
