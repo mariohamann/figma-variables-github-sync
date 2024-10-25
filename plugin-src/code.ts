@@ -1,8 +1,7 @@
-import { CreateMessage } from "./lib/CreateMessage";
 import { exportToJSON } from "./lib/ExportJson";
 import { emit, on } from '@create-figma-plugin/utilities'
 
-figma.showUI(__html__);
+figma.showUI(__html__, { themeColors: true, /* other options */ });
 
 on('notify', (content) => {
   figma.notify(content);

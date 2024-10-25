@@ -118,38 +118,51 @@
 </script>
 
 <div>
-  <div>
-    <label for="owner">Owner:</label>
-    <input id="owner" type="text" bind:value={$config.owner} />
+  <!-- Owner Input -->
+  <div class="input">
+    <label for="owner" class="label">Owner:</label>
+    <input id="owner" type="text" class="input__field" bind:value={$config.owner} />
   </div>
-  <div>
-    <label for="repo">Repo:</label>
-    <input id="repo" type="text" bind:value={$config.repo} />
+
+  <!-- Repo Input -->
+  <div class="input">
+    <label for="repo" class="label">Repo:</label>
+    <input id="repo" type="text" class="input__field" bind:value={$config.repo} />
   </div>
-  <div>
-    <label for="path">Path:</label>
-    <input id="path" type="text" bind:value={$config.path} />
+
+  <!-- Path Input -->
+  <div class="input">
+    <label for="path" class="label">Path:</label>
+    <input id="path" type="text" class="input__field" bind:value={$config.path} />
   </div>
-  <div>
-    <label for="auth">Auth:</label>
-    <input id="auth" type="text" bind:value={$config.auth} />
+
+  <!-- Auth Input -->
+  <div class="input">
+    <label for="auth" class="label">Auth:</label>
+    <input id="auth" type="text" class="input__field" bind:value={$config.auth} />
   </div>
-  <div>
-    <label for="branch">Branch:</label>
-    <select id="branch" bind:value={$config.branch}>
+
+  <!-- Branch Select -->
+  <div class="input">
+    <label for="branch" class="label">Branch:</label>
+    <select id="branch" class="select-menu" bind:value={$config.branch}>
       {#each $branches as branch}
         <option value={branch}>{branch}</option>
       {/each}
     </select>
-    <button on:click={getBranches}>Refresh</button>
+    <button class="button button--secondary" on:click={getBranches}>Refresh</button>
   </div>
 
-  <button>Cancel</button>
-  <button on:click={() => emit('save-config', $config)}>Save</button>
+  <!-- Action Buttons -->
+  <button class="button button--tertiary">Cancel</button>
+  <button class="button button--primary" on:click={() => emit('save-config', $config)}>Save</button>
   <hr />
-  <button on:click={() => emit('close')}>Close</button>
-  <button on:click={() => emit('get-variables')}>Get JSON</button>
-  <button on:click={() => emit('send-to-github')}>Push to GitHub</button>
 
-  <p>{$state}</p>
+  <!-- Secondary Action Buttons -->
+  <button class="button button--tertiary" on:click={() => emit('close')}>Close</button>
+  <button class="button button--primary" on:click={() => emit('get-variables')}>Get JSON</button>
+  <button class="button button--primary" on:click={() => emit('send-to-github')}>Push to GitHub</button>
+
+  <!-- Status Message -->
+  <p class="type type--small">{$state}</p>
 </div>

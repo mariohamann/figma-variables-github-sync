@@ -5,9 +5,157 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --radius-full: 9999px;
+  --radius-large: .8125rem;
+  --radius-medium: .3125rem;
+  --radius-none: 0;
+  --radius-small: .125rem;
+  --spacer-0: 0;
+  --spacer-1: .25rem;
+  --spacer-2: .5rem;
+  --spacer-3: 1rem;
+  --spacer-4: 1.5rem;
+  --spacer-5: 2rem;
+  --spacer-6: 2.5rem;
+  --text-body-medium-font-family: var(--font-family-default);
+  --text-body-medium-font-size: .6875rem;
+  --text-body-medium-font-weight: var(--font-weight-default);
+  --text-body-medium-letter-spacing: .00344rem;
+  --text-body-medium-line-height: 1rem;
+  --text-body-medium-strong-font-family: var(--font-family-default);
+  --text-body-medium-strong-font-size: .6875rem;
+  --text-body-medium-strong-font-weight: var(--font-weight-strong);
+  --text-body-medium-strong-letter-spacing: .00344rem;
+  --text-body-medium-strong-line-height: 1rem;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+
+/* Container styling */
+div {
+  font-family: var(--text-body-medium-font-family);
+  font-size: var(--text-body-medium-font-size);
+  font-weight: var(--text-body-medium-font-weight);
+  line-height: var(--text-body-medium-line-height);
+  color: var(--figma-color-text);
+  background-color: var(--figma-color-bg);
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacer-2);
+  gap: var(--spacer-1);
+  font-weight: --text-body-medium-strong-font-weight;
+}
+
+/* Labels */
+div label {
+  color: var(--figma-color-text-secondary);
+  font-size: var(--text-caption-medium-font-size);
+  margin-bottom: var(--spacer-1);
+}
+
+/* Input fields */
+div .input__field {
+  width: 100%;
+  padding: var(--spacer-1) var(--spacer-2);
+  background-color: var(--figma-color-bg-secondary);
+  border: 1px solid var(--figma-color-border);
+  border-radius: var(--radius-small);
+  color: var(--figma-color-text);
+  font-family: inherit;
+  font-size: inherit;
+  transition: border-color 0.2s;
+}
+
+div .input__field:hover {
+  border-color: var(--figma-color-border-selected);
+}
+
+div .input__field:focus {
+  border-color: var(--figma-color-border-strong);
+  outline: none;
+}
+
+/* Select menu */
+div .select-menu {
+  padding: var(--spacer-1) var(--spacer-2);
+  background-color: var(--figma-color-bg-secondary);
+  border: 1px solid var(--figma-color-border);
+  border-radius: var(--radius-small);
+  color: var(--figma-color-text);
+  font-family: inherit;
+  font-size: inherit;
+}
+
+div .select-menu:hover {
+  border-color: var(--figma-color-border-selected);
+}
+
+/* Buttons */
+.button {
+  padding: var(--spacer-2) var(--spacer-4);
+  border-radius: var(--radius-small);
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: var(--text-body-medium-font-weight);
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.button--primary {
+  background-color: var(--figma-color-bg-brand);
+  color: var(--figma-color-text-onbrand);
+  border: none;
+}
+
+.button--primary:hover {
+  background-color: var(--figma-color-bg-brand-hover);
+}
+
+.button--secondary {
+  background-color: var(--figma-color-bg-secondary);
+  color: var(--figma-color-text);
+  border: 1px solid var(--figma-color-border);
+}
+
+.button--secondary:hover {
+  border-color: var(--figma-color-border-strong);
+}
+
+.button--tertiary {
+  background-color: transparent;
+  color: var(--figma-color-text-brand);
+  text-decoration: underline;
+  border: none;
+}
+
+.button--tertiary:hover {
+  color: var(--figma-color-text-brand-hover);
+}
+
+/* Status text */
+.type--small {
+  font-size: var(--text-caption-medium-font-size);
+  color: var(--figma-color-text-secondary);
+  margin-top: var(--spacer-2);
+}
+
+/* Divider */
+hr {
+  border: none;
+  border-top: 1px solid var(--figma-color-border);
+  margin: var(--spacer-3) 0;
+}
+
+
+select{
+	background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+) no-repeat;
+  background-position:right;
+	-moz-appearance: none; 
+	-webkit-appearance: none; 
+	appearance: none;
+        padding : 4px 20px
 }
