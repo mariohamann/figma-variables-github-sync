@@ -1,12 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Widget Template</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="./main.ts"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Sync Plugin</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div id="app">
+    <form id="configForm">
+      <!-- Owner Input -->
+      <div class="input">
+        <label for="owner" class="label">Owner:</label>
+        <input id="owner" name="owner" type="text" class="input__field" required />
+      </div>
+
+      <!-- Repo Input -->
+      <div class="input">
+        <label for="repo" class="label">Repo:</label>
+        <input id="repo" name="repo" type="text" class="input__field" required />
+      </div>
+
+      <!-- Path Input -->
+      <div class="input">
+        <label for="path" class="label">Path:</label>
+        <input id="path" name="path" type="text" class="input__field" />
+      </div>
+
+      <!-- Auth Input -->
+      <div class="input">
+        <label for="auth" class="label">Auth:</label>
+        <input id="auth" name="auth" type="text" class="input__field" required />
+      </div>
+
+      <!-- Branch Select -->
+      <div class="input">
+        <label for="branch" class="label">Branch:</label>
+        <select id="branch" name="branch" class="select-menu">
+          <option value="" disabled selected>Select branch</option>
+        </select>
+        <button type="button" class="button button--secondary" id="refreshBranches">Refresh</button>
+      </div>
+
+      <!-- Action Buttons -->
+      <button type="reset" class="button button--tertiary">Cancel</button>
+      <button type="submit" class="button button--primary">Save</button>
+      <hr />
+
+      <!-- Secondary Action Buttons -->
+      <button type="button" class="button button--tertiary" id="closeBtn">Close</button>
+      <button type="button" class="button button--primary" id="getVariablesBtn">Get JSON</button>
+      <button type="button" class="button button--primary" id="pushToGitHubBtn">Push to GitHub</button>
+
+      <!-- Status Message -->
+      <p id="statusMessage" class="type type--small"></p>
+    </form>
+  </div>
+  <script type="module" src="./main.ts"></script>
+</body>
 </html>
