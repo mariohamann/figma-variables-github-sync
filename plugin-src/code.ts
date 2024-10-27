@@ -1,7 +1,7 @@
 import { exportToJSON } from "./lib/ExportJson";
 import { emit, on } from '@create-figma-plugin/utilities'
 
-figma.showUI(__html__, { themeColors: true, /* other options */ });
+figma.showUI(__html__, { themeColors: true, width: 400, height: 500 });
 
 on('notify', (content) => {
   figma.notify(content);

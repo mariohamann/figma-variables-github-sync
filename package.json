@@ -14,7 +14,8 @@
     "build:main": "esbuild plugin-src/code.ts --bundle --outfile=dist/code.js",
     "build:ui": "npx vite build --minify esbuild --emptyOutDir=false",
     "build:watch": "concurrently -n plugin,iframe \"npm run build:main -- --watch\" \"npm run build:ui -- --watch\"",
-    "dev": "concurrently -n tsc,build,vite 'npm:tsc:watch' 'npm:build:watch' 'vite'"
+    "dev": "concurrently -n tsc,build,vite 'npm:tsc:watch' 'npm:build:watch' 'vite'",
+    "download-webawesome": "node scripts/download-webawesome.js"
   },
   "author": "Figma",
   "license": "MIT License",
@@ -32,6 +33,7 @@
   "dependencies": {
     "@create-figma-plugin/utilities": "^3.2.1",
     "@octokit/core": "^6.1.2",
-    "@octokit/plugin-create-or-update-text-file": "^5.1.0"
+    "@octokit/plugin-create-or-update-text-file": "^5.1.0",
+    "@shoelace-style/shoelace": "^2.18.0"
   }
 }
