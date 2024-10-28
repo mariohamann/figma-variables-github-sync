@@ -1,6 +1,5 @@
 :root,
-:host,
-.wa-theme-default-light{
+:host{
   color-scheme: light;
 
   /**
@@ -113,8 +112,8 @@
   --wa-color-text-link: var(--figma-color-text-brand);
 
   /* Overlays provide a backdrop for isolated content, often allowing background context to show through. */
-  --wa-color-overlay-modal: color-mix(in oklab, var(--figma-color-bg-inverse) 50%, transparent);
-  --wa-color-overlay-inline: color-mix(in oklab, var(--figma-color-bg-inverse) 20%, transparent);
+  --wa-color-overlay-modal: color-mix(in oklab, black 50%, transparent);
+  --wa-color-overlay-inline: color-mix(in oklab, black 20%, transparent);
 
   /* Shadows indicate elevation. Shadow color is used in your theme's shadow properties.
    * By default, the opacity of your shadow color is tied to the blur of shadows in your theme.
@@ -144,7 +143,7 @@
   */
   --wa-color-brand-fill-quiet: var(--figma-color-bg-brand-tertiary);
   --wa-color-brand-fill-normal: var(--figma-color-bg-brand);
-  --wa-color-brand-fill-loud: var(--figma-color-bg-brand-secondary);
+  --wa-color-brand-fill-loud: var(--figma-color-bg-brand);
   --wa-color-brand-border-quiet: var(--figma-color-border);
   --wa-color-brand-border-normal: var(--figma-color-border);
   --wa-color-brand-border-loud: var(--figma-color-border);
@@ -381,14 +380,12 @@
   --wa-tooltip-line-height: var(--wa-line-height-normal);
 }
 
-:is(wa-button, wa-input, wa-select)::part(form-control-label) {
-  margin-bottom: var(--wa-space-m);
-}
+/* Additional overrides */
 
 wa-button, wa-input, wa-select, wa-option {
-  --wa-focus-ring-offset: 0 !important;
-  --wa-focus-ring-width: 0 !important;
-  --wa-color-focus: transparent !important;
+  --wa-focus-ring-offset: 0;
+  --wa-focus-ring-width: 0;
+  --wa-color-focus: transparent;
   --wa-font-size-l: var(--wa-font-size-m);
 }
 
@@ -396,13 +393,25 @@ wa-button, wa-input, wa-select, wa-option {
   --wa-form-control-resting-color: var(--wa-color-neutral-border-quiet);
 }
 
-#configForm {
-  display: flex;
-  flex-direction: column;
-  gap: var(--wa-space-3xl);
-  padding: var(--wa-space-m);
+:is(wa-button, wa-input, wa-select)::part(form-control-label) {
+  margin-bottom: var(--wa-space-m);
 }
 
 wa-button[appearance='outlined'][variant='brand'] {
     --background-color-hover: var(--wa-color-neutral-fill-loud) !important;
+}
+
+/* General */
+
+:root {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: Inter, sans-serif;
+  font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
+  letter-spacing: .00344rem;
+}
+
+@supports (font-variation-settings: normal) {
+  :root { font-family: InterVariable, sans-serif; }
 }

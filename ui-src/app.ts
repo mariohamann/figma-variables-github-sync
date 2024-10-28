@@ -13,10 +13,8 @@ class GitHubSyncPlugin {
   };
   private octokit: any = null;
   private branches: string[] = [];
-  private statusMessage: HTMLElement;
 
   constructor() {
-    this.statusMessage = document.getElementById("statusMessage")!;
     this.initializeEventListeners();
     this.loadConfig();
   }
@@ -38,15 +36,11 @@ class GitHubSyncPlugin {
   private initializeEventListeners() {
     const form = document.getElementById("configForm") as HTMLFormElement;
     const refreshButton = document.getElementById("refreshBranches")!;
-    const closeButton = document.getElementById("closeBtn")!;
-    const getVariablesButton = document.getElementById("getVariablesBtn")!;
     const pushButton = document.getElementById("pushToGitHubBtn")!;
 
     form.addEventListener("submit", this.saveConfig.bind(this));
     refreshButton.addEventListener("click", this.getBranches.bind(this));
-    closeButton.addEventListener("click", () => emit("close"));
-    getVariablesButton.addEventListener("click", () => emit("get-variables"));
-    pushButton.addEventListener("click", this.pushToGitHub.bind(this));
+    pushButton.addEventListener("click", () => emit('send-to-github'));
 
     on("RECEIVE-CONFIG", this.handleConfigReceived.bind(this));
     on("TO-GITHUB", this.handlePushToGitHub.bind(this));
@@ -63,8 +57,7 @@ class GitHubSyncPlugin {
     };
 
     // Populate input fields with received config data
-    (document.getElementById("owner") as HTMLInputElement).value = this.config.owner;
-    (document.getElementById("repo") as HTMLInputElement).value = this.config.repo;
+    (document.getElementById("owner-repo") as HTMLInputElement).value = [this.config.owner, this.config.repo].join('/');
     (document.getElementById("path") as HTMLInputElement).value = this.config.path;
     (document.getElementById("auth") as HTMLInputElement).value = this.config.auth;
     (document.getElementById("branch") as HTMLSelectElement).value = this.config.branch;
@@ -78,21 +71,22 @@ class GitHubSyncPlugin {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
     this.config = {
-      owner: formData.get("owner") as string,
-      repo: formData.get("repo") as string,
+      owner: formData.get("owner-repo").split('/')[0] as string,
+      repo: formData.get("owner-repo").split('/')[1] as string,
       path: formData.get("path") as string,
       auth: formData.get("auth") as string,
       branch: formData.get("branch") as string,
     };
     emit("save-config", this.config);
-    this.setStatus("Configuration saved.");
+    emit('notify', "Configuration saved.");
   }
 
   // Fetch branches from GitHub
   private async getBranches() {
     this.initializeOctokit();
     if (!this.octokit || !this.config.owner || !this.config.repo) {
-      this.setStatus("Owner, repo, or auth token missing.");
+
+      emit('notify', "Owner, repo, or auth token missing.");
       return;
     }
 
@@ -105,10 +99,10 @@ class GitHubSyncPlugin {
 
       this.branches = [defaultBranch, ...data.map((b: any) => b.name).filter((b: string) => b !== defaultBranch)];
       this.updateBranchSelect();
-      this.setStatus("Branches updated.");
+      emit('notify', "Branches updated.");
     } catch (error) {
       console.error("Error fetching branches:", error);
-      this.setStatus("Error fetching branches.");
+      emit('notify', "Error fetching branches.");
     }
   }
 
@@ -135,9 +129,9 @@ class GitHubSyncPlugin {
     branchSelect.value = this.config.branch || "";
   }
 
-  // Push to GitHub
-  private async pushToGitHub() {
-    this.setStatus("Sending to GitHub...");
+  // Handle push-to-GitHub event from Figma
+  private async handlePushToGitHub(content: string) {
+    emit('notify', "Sending to GitHub...");
     this.initializeOctokit();
 
     try {
@@ -146,30 +140,19 @@ class GitHubSyncPlugin {
         repo: this.config.repo,
         path: this.config.path || "figma.json",
         branch: this.config.branch || "main",
-        content: JSON.stringify(this.config),
+        content: JSON.stringify(content, null, 2),
         message: "Update Figma Variables",
       });
 
       if (updated) {
-        this.setStatus(`Updated via ${data.commit.html_url}`);
+        emit('notify', `Updated via ${data.commit.html_url}`);
       } else {
-        this.setStatus("Already up to date.");
+        emit('notify', "Already up to date.");
       }
     } catch (error) {
       console.error("Error pushing to GitHub:", error);
-      this.setStatus("Error pushing to GitHub.");
+      emit('notify', "Error pushing to GitHub.");
     }
-  }
-
-  // Set status message
-  private setStatus(message: string) {
-    this.statusMessage.textContent = message;
-  }
-
-  // Handle push-to-GitHub event from Figma
-  private handlePushToGitHub(content: string) {
-    this.config.path = content;
-    this.pushToGitHub();
   }
 }
 

@@ -1,48 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GitHub Sync Plugin</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-</head>
-<body>
-  <div id="app">
-    <form id="configForm">
-      <!-- Owner Input -->
-      <wa-input label="Owner" id="owner" name="owner" required></wa-input>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>GitHub Sync Plugin</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<body class="p-3">
+		<form id="configForm" class="flex flex-col gap-5 mb-0">
+			<wa-input
+				label="Repository (owner/repo)"
+				id="owner-repo"
+				name="owner-repo"
+			></wa-input>
 
-      <!-- Repo Input -->
-      <wa-input label="Repo" id="repo" name="repo" required></wa-input>
+			<wa-input label="Path" id="path" name="path"></wa-input>
 
-      <!-- Path Input -->
-      <wa-input label="Path" id="path" name="path"></wa-input>
+			<wa-input
+				label="Auth"
+				id="auth"
+				name="auth"
+				type="password"
+				password-toggle
+			></wa-input>
+			<div class="flex flex-row gap-2 items-end">
+				<wa-select
+					class="flex-auto"
+					label="Branch"
+					id="branch"
+					name="branch"
+				>
+					<wa-option value="" disabled>Select branch</wa-option>
+				</wa-select>
+				<wa-button type="button" id="refreshBranches"
+					>Refresh</wa-button
+				>
+			</div>
 
-      <!-- Auth Input -->
-      <wa-input label="Auth" id="auth" name="auth" type="password" required password-toggle></wa-input>
-
-      <!-- Branch Select -->
-      <wa-select label="Branch" id="branch" name="branch" class="select-menu">
-        <wa-option value="" disabled>Select branch</wa-option>
-      </wa-select>
-      <wa-button size="large" type="button" id="refreshBranches" class="button button--secondary">Refresh</wa-button>
-
-      <!-- Action Buttons -->
-      <wa-button size="large" appearance="outlined" type="reset" variant="brand">Cancel</wa-button>
-      <wa-button size="large" type="submit" variant="brand">Save</wa-button>
-      <wa-divider></wa-divider>
-
-      <!-- Secondary Action Buttons -->
-      <wa-button size="large" appearance="outlined" type="button" variant="brand" id="closeBtn">Close</wa-button>
-      <wa-button size="large" type="button" variant="brand" id="getVariablesBtn">Get JSON</wa-button>
-      <wa-button size="large" type="button" variant="brand" id="pushToGitHubBtn">Push to GitHub</wa-button>
-
-      <!-- Status Message -->
-      <p id="statusMessage" class="type type--small"></p>
-    </form>
-  </div>
-  <script type="module" src="./main.ts"></script>
-</body>
+			<div class="mt-2 flex flex-row gap-2 items-end justify-end">
+				<wa-button
+					size="large"
+					type="submit"
+          appearance="outlined"
+					variant="brand"
+					data-dialog="close"
+					>Save config</wa-button
+				>
+				<wa-button
+					size="large"
+					type="button"
+					variant="brand"
+					id="pushToGitHubBtn"
+					>Push variables to GitHub</wa-button
+				>
+			</div>
+		</form>
+		<script type="module" src="./index.ts"></script>
+	</body>
 </html>

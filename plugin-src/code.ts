@@ -1,7 +1,7 @@
 import { exportToJSON } from "./lib/ExportJson";
 import { emit, on } from '@create-figma-plugin/utilities'
 
-figma.showUI(__html__, { themeColors: true, width: 400, height: 500 });
+figma.showUI(__html__, { themeColors: true, width: 400, height: 332 });
 
 on('notify', (content) => {
   figma.notify(content);
@@ -34,9 +34,7 @@ on('save-config', (content) => {
   figma.notify('Data saved!');
 });
 
-
 on("get-config", async () => {
-  console.log('get-config');
   // get everything besides auth in with getPluginData and auth on clientStorage
   const auth = await figma.clientStorage.getAsync("auth");
   const rest = {};
@@ -44,7 +42,6 @@ on("get-config", async () => {
     rest[key] = figma.root.getPluginData(key);
   }
   emit("RECEIVE-CONFIG", { auth, ...rest });
-  console.log(emit);
 },);
 
 figma.on("selectionchange", () => {
