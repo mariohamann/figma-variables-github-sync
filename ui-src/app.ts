@@ -140,7 +140,7 @@ class GitHubSyncPlugin {
         repo: this.config.repo,
         path: this.config.path || "figma.json",
         branch: this.config.branch || "main",
-        content: JSON.stringify(content, null, 2),
+        content: content,
         message: "Update Figma Variables",
       });
 

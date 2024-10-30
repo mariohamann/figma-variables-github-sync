@@ -12,13 +12,13 @@ on('close', () => {
   figma.closePlugin();
 });
 
-on('get-variables', () => {
-  const data = exportToJSON();
+on('get-variables', async () => {
+  const data = await exportToJSON();
   emit('VARIABLES', data);
 });
 
-on('send-to-github', () => {
-  const data = exportToJSON();
+on('send-to-github', async () => {
+  const data = await exportToJSON();
   emit('TO-GITHUB', data);
 });
 

@@ -1,6 +1,6 @@
 console.clear();
 
-export function exportToJSON() {
+export async function exportToJSON() {
 	// Replacer function to remove circular references
 	function replacer(key, value) {
 		// Check if the value is an object
@@ -16,8 +16,8 @@ export function exportToJSON() {
 	}
 
 	const output = {
-		variables: figma.variables.getLocalVariables(),
-		variableCollections: figma.variables.getLocalVariableCollections(),
+		variables: await figma.variables.getLocalVariablesAsync(),
+		variableCollections: await figma.variables.getLocalVariableCollectionsAsync(),
 	};
 
 	return JSON.stringify(output, replacer, 2);
