@@ -401,15 +401,21 @@ wa-button[appearance='outlined'][variant='brand'] {
     --background-color-hover: var(--wa-color-neutral-fill-loud) !important;
 }
 
+wa-button:not([appearance='filled'])[variant='brand'] {
+    --label-color: var(--figma-color-text);
+    --label-color-hover: var(--figma-color-text-hover);
+    --label-color-active: var(--figma-color-text-hover);
+}
+
 /* General */
 
-:root {
+body, :root {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: Inter, sans-serif;
   font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
-  letter-spacing: .00344rem;
+  letter-spacing: .0015rem;
 }
 
 @supports (font-variation-settings: normal) {
