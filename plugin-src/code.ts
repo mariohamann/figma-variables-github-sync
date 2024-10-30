@@ -1,5 +1,6 @@
 import { exportToJSON } from "./lib/ExportJson";
 import { emit, on } from '@create-figma-plugin/utilities'
+import { uuidv7 } from "uuidv7";
 
 figma.showUI(__html__, { themeColors: true, width: 400, height: 332 });
 
@@ -21,28 +22,57 @@ on('send-to-github', () => {
   emit('TO-GITHUB', data);
 });
 
-on('save-config', (content) => {
-  // save everything besides auth in with setPluginData and auth on clientStorage
+on("save-config", async (content) => {
   const { auth, ...rest } = content;
-  figma.clientStorage.setAsync('auth', auth);
-  for (const [key, value] of Object.entries(rest)) {
-    if (!value) {
-      return;
-    }
-    figma.root.setPluginData(key, value);
-  }
-  figma.notify('Data saved!');
+
+  // Get existing providers from figma.root or initialize with an empty array
+  let providers = await figma.root.getPluginData("providers") || [];
+  let authProviders = await figma.clientStorage.getAsync("providers") || [];
+
+  // Check if an existing provider with UUID is already saved
+  let uuid = providers[0]?.uuid || uuidv7();
+
+  // Prepare updated provider data for figma.root
+  const providerData = {
+    uuid,
+    owner: rest.owner || "",
+    repo: rest.repo || "",
+    path: rest.path || "",
+    branch: rest.branch || "",
+  };
+
+  // Prepare updated auth data for clientStorage
+  const authData = {
+    uuid,
+    auth: auth || "",
+  };
+
+  // Overwrite providers array with the updated provider data
+  providers = [providerData];
+  figma.root.setPluginData("providers", JSON.stringify(providers));
+
+  // Update authProviders array with the updated auth data
+  authProviders = [authData];
+  await figma.clientStorage.setAsync("providers", authProviders);
+
+  figma.notify("Data saved!");
 });
 
 on("get-config", async () => {
-  // get everything besides auth in with getPluginData and auth on clientStorage
-  const auth = await figma.clientStorage.getAsync("auth");
-  const rest = {};
-  for (const key of figma.root.getPluginDataKeys()) {
-    rest[key] = figma.root.getPluginData(key);
-  }
-  emit("RECEIVE-CONFIG", { auth, ...rest });
-},);
+  // Get providers data from figma.root
+  const providers = JSON.parse(figma.root.getPluginData("providers") || "[]");
+
+  // Currently, just select the first provider
+  const currentProvider = providers[0] || {};
+
+  // Get auth data from clientStorage and find the one matching the current provider's UUID
+  const authProviders = (await figma.clientStorage.getAsync("providers")) || [];
+  const authData = authProviders.find((item: { uuid: string; }) => item.uuid === currentProvider.uuid);
+
+  // Combine auth with the current provider's data for frontend
+  const config = { ...currentProvider, auth: authData ? authData.auth : null };
+  emit("RECEIVE-CONFIG", config);
+});
 
 figma.on("selectionchange", () => {
 	emit("SelectionChanged", figma.currentPage.selection);

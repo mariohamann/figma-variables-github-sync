@@ -17,6 +17,12 @@ dependencies:
   '@shoelace-style/shoelace':
     specifier: ^2.18.0
     version: 2.18.0(@types/react@18.3.12)
+  uuid:
+    specifier: ^11.0.2
+    version: 11.0.2
+  uuidv7:
+    specifier: ^1.0.2
+    version: 1.0.2
 
 devDependencies:
   '@figma/plugin-typings':
@@ -1707,6 +1713,16 @@ packages:
   /util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
+
+  /uuid@11.0.2:
+    resolution: {integrity: sha512-14FfcOJmqdjbBPdDjFQyk/SdT4NySW4eM0zcG+HqbHP5jzuH56xO3J1DGhgs/cEMCfwYi3HQI1gnTO62iaG+tQ==}
+    hasBin: true
+    dev: false
+
+  /uuidv7@1.0.2:
+    resolution: {integrity: sha512-8JQkH4ooXnm1JCIhqTMbtmdnYEn6oKukBxHn1Ic9878jMkL7daTI7anTExfY18VRCX7tcdn5quzvCb6EWrR8PA==}
+    hasBin: true
+    dev: false
 
   /vite-plugin-singlefile@0.13.5(rollup@4.24.0)(vite@4.5.5):
     resolution: {integrity: sha512-y/aRGh8qHmw2f1IhaI/C6PJAaov47ESYDvUv1am1YHMhpY+19B5k5Odp8P+tgs+zhfvak6QB1ykrALQErEAo7g==}

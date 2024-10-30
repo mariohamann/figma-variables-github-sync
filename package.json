@@ -37,6 +37,8 @@
     "@create-figma-plugin/utilities": "^3.2.1",
     "@octokit/core": "^6.1.2",
     "@octokit/plugin-create-or-update-text-file": "^5.1.0",
-    "@shoelace-style/shoelace": "^2.18.0"
+    "@shoelace-style/shoelace": "^2.18.0",
+    "uuid": "^11.0.2",
+    "uuidv7": "^1.0.2"
   }
 }
