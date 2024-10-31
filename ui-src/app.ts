@@ -12,7 +12,6 @@ class GitHubSyncPlugin {
     branch: "",
   };
   private octokit: any = null;
-  private branches: string[] = [];
 
   constructor() {
     this.initializeEventListeners();
@@ -39,7 +38,6 @@ class GitHubSyncPlugin {
     const pushButton = document.getElementById("pushToGitHubBtn")!;
 
     form.addEventListener("submit", this.saveConfig.bind(this));
-    refreshButton.addEventListener("click", this.getBranches.bind(this));
     pushButton.addEventListener("click", () => emit('send-to-github'));
 
     on("RECEIVE-CONFIG", this.handleConfigReceived.bind(this));
@@ -63,7 +61,6 @@ class GitHubSyncPlugin {
     (document.getElementById("branch") as HTMLSelectElement).value = this.config.branch;
 
     this.initializeOctokit();
-    this.getBranches();
   }
 
   // Save config when form is submitted
@@ -79,54 +76,6 @@ class GitHubSyncPlugin {
     };
     emit("save-config", this.config);
     emit('notify', "Configuration saved.");
-  }
-
-  // Fetch branches from GitHub
-  private async getBranches() {
-    this.initializeOctokit();
-    if (!this.octokit || !this.config.owner || !this.config.repo) {
-
-      emit('notify', "Owner, repo, or auth token missing.");
-      return;
-    }
-
-    try {
-      const defaultBranch = await this.getDefaultBranch();
-      const { data } = await this.octokit.request("GET /repos/{owner}/{repo}/branches", {
-        owner: this.config.owner,
-        repo: this.config.repo,
-      });
-
-      this.branches = [defaultBranch, ...data.map((b: any) => b.name).filter((b: string) => b !== defaultBranch)];
-      this.updateBranchSelect();
-      emit('notify', "Branches updated.");
-    } catch (error) {
-      console.error("Error fetching branches:", error);
-      emit('notify', "Error fetching branches.");
-    }
-  }
-
-  // Get default branch of repository
-  private async getDefaultBranch() {
-    this.initializeOctokit();
-    const { data } = await this.octokit.request("GET /repos/{owner}/{repo}", {
-      owner: this.config.owner,
-      repo: this.config.repo,
-    });
-    return data.default_branch;
-  }
-
-  // Update branch select dropdown
-  private updateBranchSelect() {
-    const branchSelect = document.getElementById("branch") as HTMLSelectElement;
-    branchSelect.innerHTML = '<wa-option value="" disabled>Select branch</wa-option>';
-    this.branches.forEach(branch => {
-      const option = document.createElement("wa-option");
-      option.value = branch;
-      option.textContent = branch;
-      branchSelect.appendChild(option);
-    });
-    branchSelect.value = this.config.branch || "";
   }
 
   // Handle push-to-GitHub event from Figma
