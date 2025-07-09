@@ -2,7 +2,9 @@
   "name": "Variables GitHub Sync",
   "id": "1433006031672319646",
   "api": "1.0.0",
-  "editorType": ["figma"],
+  "editorType": [
+    "figma"
+  ],
   "permissions": [],
   "main": "dist/code.js",
   "documentAccess": "dynamic-page",

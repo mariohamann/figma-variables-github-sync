@@ -34,7 +34,6 @@ class GitHubSyncPlugin {
   // Initialize event listeners
   private initializeEventListeners() {
     const form = document.getElementById("configForm") as HTMLFormElement;
-    const refreshButton = document.getElementById("refreshBranches")!;
     const pushButton = document.getElementById("pushToGitHubBtn")!;
 
     form.addEventListener("submit", this.saveConfig.bind(this));
